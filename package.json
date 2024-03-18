@@ -27,6 +27,6 @@
     "typescript": "^5.4.2"
   },
   "publishConfig": {
-    "@akademiaapp:registry": "https://npm.pkg.github.com"
+    "@akademiaapp:registry": "https://registry.npmjs.org"
   }
 }
