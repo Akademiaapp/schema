@@ -1,0 +1,30 @@
+{
+  "name": "@akademiaapp/schema",
+  "version": "1.0.0",
+  "description": "Akademia database schema",
+  "scripts": {
+    "db:introspect": "dotenv -- prisma introspect",
+    "db:generate": "dotenv -- prisma generate",
+    "postinstall": "tsc && cp src/index.d.ts dist/index.d.ts && npx prisma generate"
+  },
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akademiaapp/schema.git"
+  },
+  "author": "Akademia Team",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/Akademiaapp/schema/issues"
+  },
+  "homepage": "https://github.com/Akademiaapp/schema#readme",
+  "dependencies": {
+    "@prisma/client": "^5.11.0",
+    "prisma": "^5.11.0"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  }
+}
