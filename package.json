@@ -18,9 +18,7 @@
   },
   "homepage": "https://github.com/Akademiaapp/schema#readme",
   "dependencies": {
-    "@prisma/client": "^5.11.0"
-  },
-  "devDependencies": {
+    "@prisma/client": "^5.11.0",
     "prisma": "^5.11.0",
     "dotenv-cli": "^7.4.1",
     "ts-node": "^10.9.2",
