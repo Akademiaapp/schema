@@ -7,182 +7,78 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model authorizer_authenticators {
-  key            String?
-  id             String  @id @db.Char(36)
-  user_id        String? @db.Char(36)
-  method         String?
-  secret         String?
-  recovery_codes String?
-  verified_at    BigInt?
-  created_at     BigInt?
-  updated_at     BigInt?
-}
-
-model authorizer_email_templates {
-  key        String?
-  id         String  @id @db.Char(36)
-  event_name String? @unique
-  subject    String?
-  template   String?
-  design     String?
-  created_at BigInt?
-  updated_at BigInt?
-}
-
-model authorizer_envs {
-  key            String?
-  id             String  @id @db.Char(36)
-  env_data       String?
-  hash           String?
-  encryption_key String?
-  updated_at     BigInt?
-  created_at     BigInt?
-}
-
-model authorizer_otps {
-  key          String?
-  id           String  @id @db.Char(36)
-  email        String? @unique
-  phone_number String? @unique(map: "idx_authorizer_otps_phone_number")
-  otp          String?
-  expires_at   BigInt?
-  created_at   BigInt?
-  updated_at   BigInt?
-}
-
-model authorizer_sessions {
-  key        String?
-  id         String  @id @db.Char(36)
-  user_id    String? @db.Char(36)
-  user_agent String?
-  ip         String?
-  created_at BigInt?
-  updated_at BigInt?
-}
-
-model authorizer_users {
-  key                          String?
-  id                           String                 @id @db.Char(36)
-  email                        String?                @unique
-  email_verified_at            BigInt?
-  password                     String?
-  signup_methods               String?
-  given_name                   String?
-  family_name                  String?
-  middle_name                  String?
-  nickname                     String?
-  gender                       String?
-  birthdate                    String?
-  phone_number                 String?
-  phone_number_verified_at     BigInt?
-  picture                      String?
-  roles                        String?
-  revoked_timestamp            BigInt?
-  is_multi_factor_auth_enabled Boolean?
-  updated_at                   BigInt?
-  created_at                   BigInt?
-  app_data                     String?
-  user_settings                Json?
-  documents                    file_permission[]
-  groups                       group[]
-  school_id                    String?
-  school                       school?                @relation(fields: [school_id], references: [id])
-  assignments                  assignment[]
-  assignment_answers           assignment_answer[]
-
-  @@index([phone_number], map: "idx_authorizer_users_phone_number")
-}
-
-model authorizer_verification_requests {
-  key          String?
-  id           String  @id @db.Char(36)
-  token        String?
-  identifier   String? @db.VarChar(64)
-  expires_at   BigInt?
-  email        String? @db.VarChar(256)
-  nonce        String?
-  redirect_uri String?
-  created_at   BigInt?
-  updated_at   BigInt?
-
-  @@unique([identifier, email], map: "idx_email_identifier")
-}
-
-model authorizer_webhook_logs {
-  key         String?
-  id          String  @id @db.Char(36)
-  http_status BigInt?
-  response    String?
-  request     String?
-  webhook_id  String? @db.Char(36)
-  created_at  BigInt?
-  updated_at  BigInt?
-}
-
-model authorizer_webhooks {
-  key               String?
-  id                String   @id @db.Char(36)
-  event_name        String?  @unique
-  event_description String?
-  end_point         String?
-  headers           String?
-  enabled           Boolean?
+model user {
+  id                String              @id
   created_at        BigInt?
   updated_at        BigInt?
+  file_permission   file_permission[]
+  school            school?             @relation(fields: [schoolId], references: [id])
+  schoolId          String?
+  user_group        user_group[]
+  assignment        assignment[]
+  assignment_answer assignment_answer[]
+}
+
+model user_group {
+  user    user   @relation(fields: [userId], references: [id])
+  userId  String
+  group   group  @relation(fields: [groupId], references: [id])
+  groupId String
+
+  @@id([userId, groupId])
 }
 
 model document {
-  id                  String                 @id @default(uuid())
-  name                String
-  data                Bytes?
-  created_at          BigInt?
-  updated_at          BigInt?
-  permissions         file_permission[]
+  id          String            @id @default(uuid())
+  name        String
+  data        Bytes?
+  created_at  BigInt?
+  updated_at  BigInt?
+  permissions file_permission[]
 }
 
 model file_permission {
-  id          String           @id @default(uuid())
-  user_id     String           @db.Char(36)
+  id          String     @id @default(uuid())
+  user_id     String     @db.Char(36)
   permission  Permission
   document_id String
-  document    document        @relation(fields: [document_id], references: [id])
-  user        authorizer_users @relation(fields: [user_id], references: [id])
+  document    document   @relation(fields: [document_id], references: [id])
+  user        user       @relation(fields: [user_id], references: [id])
 }
 
 model school {
-  id      String             @id @default(uuid())
+  id      String  @id @default(uuid())
   name    String
   address String
-  members authorizer_users[]
+  members user[]
   groups  group[]
 }
 
 model group {
-  id        String            @id @default(uuid())
-  name      String
-  school    school            @relation(fields: [school_id], references: [id])
-  school_id String
-  students  authorizer_users[]
+  id         String       @id @default(uuid())
+  name       String
+  school     school       @relation(fields: [school_id], references: [id])
+  school_id  String
+  user_group user_group[]
 }
 
 model assignment {
-  id                     String                @id @default(uuid())
-  name                   String
-  teacher_id             String
-  teacher                authorizer_users      @relation(fields: [teacher_id], references: [id])
-  due_date               BigInt
-  created_at             BigInt?
-  assignment_answers     assignment_answer[]
-  data                   Bytes?
+  id                 String              @id @default(uuid())
+  name               String
+  teacher_id         String
+  teacher            user                @relation(fields: [teacher_id], references: [id])
+  due_date           BigInt
+  created_at         BigInt?
+  assignment_answers assignment_answer[]
+  data               Bytes?
 }
 
 model assignment_answer {
-  id            String           @id @default(uuid())
+  id            String            @id @default(uuid())
   assignment_id String
-  assignment    assignment      @relation(fields: [assignment_id], references: [id])
+  assignment    assignment        @relation(fields: [assignment_id], references: [id])
   student_id    String
-  student       authorizer_users @relation(fields: [student_id], references: [id])
+  student       user              @relation(fields: [student_id], references: [id])
   status        assignment_status @default(NOT_STARTED)
   data          Bytes?
 }
