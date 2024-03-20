@@ -9,8 +9,8 @@ datasource db {
 
 model user {
   id                String              @id
-  created_at        BigInt?
-  updated_at        BigInt?
+  created_at        DateTime?
+  updated_at        DateTime?
   file_permission   file_permission[]
   school            school?             @relation(fields: [schoolId], references: [id])
   schoolId          String?
@@ -32,8 +32,8 @@ model document {
   id          String            @id @default(uuid())
   name        String
   data        Bytes?
-  created_at  BigInt?
-  updated_at  BigInt?
+  created_at  DateTime?
+  updated_at  DateTime?
   permissions file_permission[]
 }
 
@@ -67,8 +67,8 @@ model assignment {
   name               String
   teacher_id         String
   teacher            user                @relation(fields: [teacher_id], references: [id])
-  due_date           BigInt
-  created_at         BigInt?
+  due_date           DateTime
+  created_at         DateTime?
   assignment_answers assignment_answer[]
   data               Bytes?
 }
