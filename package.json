@@ -1,6 +1,6 @@
 {
   "name": "@akademiaapp/schema",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Akademia database schema",
   "scripts": {
     "db:introspect": "dotenv -- prisma introspect",
