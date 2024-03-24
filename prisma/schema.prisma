@@ -74,6 +74,7 @@ model assignment {
   created_at         DateTime?
   assignment_answers assignment_answer[]
   data               Bytes?
+  updated_at         DateTime?
 }
 
 model assignment_answer {
