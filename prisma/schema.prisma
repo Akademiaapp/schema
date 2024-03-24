@@ -76,6 +76,7 @@ model assignment {
   data               Bytes?
   updated_at         DateTime?
   isPublic           Boolean             @default(false)
+  asigned_groups_ids String[]
 }
 
 model assignment_answer {
