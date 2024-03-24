@@ -20,6 +20,14 @@ model user {
   user_group        user_group[]
   assignment        assignment[]
   assignment_answer assignment_answer[]
+  type              UserType            @default(TESTER)
+}
+
+enum UserType {
+  TESTER
+  STUDENT
+  TEACHER
+  ADMIN
 }
 
 model user_group {
