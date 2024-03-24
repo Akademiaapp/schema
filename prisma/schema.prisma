@@ -75,6 +75,7 @@ model assignment {
   assignment_answers assignment_answer[]
   data               Bytes?
   updated_at         DateTime?
+  isPublic           Boolean             @default(false)
 }
 
 model assignment_answer {
