@@ -15,7 +15,7 @@ model user {
   created_at        DateTime?
   updated_at        DateTime?
   file_permission   file_permission[]
-  school            school?             @relation(fields: [schoolId], references: [id])
+  school            school?             @relation(fields: [schoolId], references: [id], onDelete: SetNull)
   schoolId          String?
   user_group        user_group[]
   assignment        assignment[]
@@ -31,9 +31,9 @@ enum UserType {
 }
 
 model user_group {
-  user    user   @relation(fields: [userId], references: [id])
+  user    user   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
-  group   group  @relation(fields: [groupId], references: [id])
+  group   group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId String
 
   @@id([userId, groupId])
@@ -68,7 +68,7 @@ model school {
 model group {
   id         String       @id @default(uuid())
   name       String
-  school     school       @relation(fields: [school_id], references: [id])
+  school     school       @relation(fields: [school_id], references: [id], onDelete: Cascade)
   school_id  String
   user_group user_group[]
 }
@@ -77,7 +77,7 @@ model assignment {
   id                 String              @id @default(uuid())
   name               String
   teacher_id         String
-  teacher            user                @relation(fields: [teacher_id], references: [id])
+  teacher            user                @relation(fields: [teacher_id], references: [id], onDelete: Cascade)
   due_date           DateTime
   created_at         DateTime?
   assignment_answers assignment_answer[]
@@ -90,9 +90,9 @@ model assignment {
 model assignment_answer {
   id            String            @id @default(uuid())
   assignment_id String
-  assignment    assignment        @relation(fields: [assignment_id], references: [id])
+  assignment    assignment        @relation(fields: [assignment_id], references: [id], onDelete: Cascade)
   student_id    String
-  student       user              @relation(fields: [student_id], references: [id])
+  student       user              @relation(fields: [student_id], references: [id], onDelete: Cascade)
   status        assignment_status @default(NOT_STARTED)
   data          Bytes?
 }
