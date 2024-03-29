@@ -45,6 +45,7 @@ model document {
   data        Bytes?
   created_at  DateTime?
   updated_at  DateTime?
+  isNote      Boolean           @default(false)
   permissions file_permission[]
 }
 
