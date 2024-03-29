@@ -20,7 +20,7 @@ model user {
   user_group        user_group[]
   assignment        assignment[]
   assignment_answer assignment_answer[]
-  type              UserType            @default(TESTER)
+  type              UserType?
 }
 
 enum UserType {
