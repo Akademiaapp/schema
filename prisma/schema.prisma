@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  TEACHER
+  STUDENT
+  TESTER
+}
+
 model user {
   id                String              @id
   first_name        String
@@ -20,6 +26,7 @@ model user {
   user_group        user_group[]
   assignment        assignment[]
   assignment_answer assignment_answer[]
+  role              Role                @default(STUDENT)
 }
 
 model user_group {
