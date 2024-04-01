@@ -96,6 +96,8 @@ model assignment_answer {
   student       user              @relation(fields: [student_id], references: [id], onDelete: Cascade)
   status        assignment_status @default(NOT_STARTED)
   data          Bytes?
+  feedback      String?
+  grade         Int?
 }
 
 enum assignment_status {
