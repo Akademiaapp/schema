@@ -56,6 +56,8 @@ model file_permission {
   document_id String
   document    document   @relation(fields: [document_id], references: [id], onDelete: Cascade)
   user        user       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([document_id, user_id], name: "document_user_id")
 }
 
 model school {
