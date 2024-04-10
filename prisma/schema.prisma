@@ -89,6 +89,7 @@ model assignment {
   updated_at         DateTime?
   isPublic           Boolean             @default(false)
   asigned_groups_ids String[]
+  asigned_users_ids  String[]
 }
 
 model assignment_answer {
