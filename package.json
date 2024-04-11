@@ -18,11 +18,11 @@
   },
   "homepage": "https://github.com/Akademiaapp/schema#readme",
   "dependencies": {
-    "@prisma/client": "^5.11.0",
-    "prisma": "^5.11.0",
+    "@prisma/client": "^5.12.1",
+    "prisma": "^5.12.1",
     "dotenv-cli": "^7.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "@akademiaapp:registry": "https://registry.npmjs.org"
